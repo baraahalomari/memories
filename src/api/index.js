@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 
-const API = axios.create({ baseURL: 'https://memorie-backend.herokuapp.com' });
+const API = axios.create({ baseURL: 'http://localhost:3001' });
 
 API.interceptors.request.use((req)=>{
   if (localStorage.getItem('profile')){
@@ -11,7 +11,11 @@ API.interceptors.request.use((req)=>{
   return req;
 });
 
-export const fetchPost = () => API.get(`/post`);
+export const fetchPost = (id) => API.get(`/post/${id}`);
+
+export const fetchPosts = (page) => API.get(`/post?page=${page}`);
+
+export const fetchPostBySearchQuery = (searchQuery) => API.get(`/post/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 
 export const createPost = (newPost) => API.post(`/post`, newPost);
 
